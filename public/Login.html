@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="jquery.js"></script>
+  <script src="Login.js"></script>
+  <script>
+   function addProductElement(id)
+{
+  console.log("reached in add  product to cart")
+  console.log(sessionStorage.getItem("userid"))
+  
+  
+
+console.log(id)
+  $.post(
+    '/products/addToCart',
+      {
+        userid:sessionStorage.getItem("userid"),
+          id:id
+        },
+    (data) => {
+      if (data.success) {
+      console.log("successfull")
+      } else {
+        alert('Some error occurred')
+      }
+    }
+  )}
+
+  
+  </script>
+
+
+    <style>
+      table, th, td {
+            border: 1px solid black;
+          }
+        
+  </style>
+  
+  <body>
+    
+    <h1>USER LOGIN</h1>
+    <input id="userid" type="text" name="username" placeholder="Enter user id">
+    <button id="login">Login</button>
+
+    <table id="productable" style="width:100%">
+      </table>
+
+    
+    
+    
+    </body>

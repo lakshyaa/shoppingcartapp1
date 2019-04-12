@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="jquery.js"></script>
+        <script src="productlist.js"></script>
+        <script>
+            function refreshProductListAgain() {
+        $.get('/products', (data) => {
+          $('#productable').empty()
+          console.log(" in refresh  product list")
+         // console.log(data.name+" "+data.price+" "+data.quantity)
+    
+          
+         for (let product of data) {
+           //   console.log(vendor.id+"  "+vendor.name)
+            $('#productable').append(
+              `<tr><td>${product.name}</td><td>${product.price}</td><td>${product.quantity}</td><td><button id="productdelete" value="${product.id}
+              onclick="deleteElement(${product.id})">
+     Delete</button></tr>`)
+                 }
+        })
+      }
+    
+        function deleteProductElement(id)
+        {
+            $('#productdelete').click(() => {
+        console.log("reached in delete product")
+        console.log(id)
+          $.post(
+            '/products/delete',
+              {
+                  id:id
+                },
+            (data) => {
+              if (data.success) {
+                refreshProductListAgain()
+              } else {
+                alert('Some error occurred')
+              }
+            }
+          )
+        })
+      
+    
+  
+
+        }
+        </script>
+        <style>
+        table, th, td {
+            border: 1px solid black;
+          }
+        </style>
+
+    </head>
+    <body>
+        <h1>Add Product Details</h1>
+        
+<input type="text" id="name" placeholder="product name" required="true">
+<input type="text" id="price" placeholder="product price"  required="true">
+<select id="vendors">
+    </select>
+   <input type="text" id="quantity" placeholder="product quantity" required="true">
+<button id="productAttributes" name="submit">submit</button>
+
+<h2>Products details</h2>
+<table id="productable" style="width:100%">
+    <tr>
+    <th>Name</th>
+    <th>Price></th>
+    <th>Quantity</th>
+    <th>Delete</th>
+    </tr>
+
+</table>
+
+      
+
+
+    </body>
+</html>
